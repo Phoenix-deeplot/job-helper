@@ -1,0 +1,8 @@
+{
+  "extensionName": {
+    "message": "Job-helper：AI职位匹配助手"
+  },
+  "extensionDescription": {
+    "message": "分析职位描述，匹配你的简历，发现技能差距，帮助你判断职位是否值得申请。"
+  }
+}

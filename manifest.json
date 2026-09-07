@@ -1,0 +1,93 @@
+{
+  "manifest_version": 3,
+  "name": "__MSG_extensionName__",
+  "version": "1.2.0",
+  "description": "__MSG_extensionDescription__",
+  "default_locale": "zh_CN",
+  "permissions": [
+    "storage",
+    "tabs"
+  ],
+  "icons": {
+    "48": "img/jobhelper.png"
+  },
+  "action": {
+    "default_title": "JOB Helper",
+    "default_icon": "img/jobhelper.png"
+  },
+  "host_permissions": [
+    "https://*.zhipin.com/*",
+    "https://*.liepin.com/*",
+    "*://*.51job.com/*",
+    "https://*.zhilian.com/*",
+    "https://*.linkedin.com/*",
+    "https://*.indeed.com/*",
+    "https://*.indeed.co.uk/*",
+    "https://*.indeed.ca/*",
+    "https://*.glassdoor.com/*",
+    "https://*.ziprecruiter.com/*",
+    "https://*.monster.com/*",
+    "https://*.zhaopin.com/*",
+    "http://localhost:3000/*",
+    "http://127.0.0.1:3000/*"
+  ],
+  "background": {
+    "service_worker": "background1.js"
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "https://www.zhipin.com/web/geek/jobs*",
+      "https://*.51job.com/*"],
+      "js": ["injected1.js"],
+      "world": "MAIN",
+      "run_at": "document_start"
+    },
+    {
+      "matches": [
+        "https://*.51job.com/*",
+         "https://*.zhaopin.com/*",
+         "https://*.liepin.com/*",
+        "https://*.zhipin.com/*",
+        "https://*.zhilian.com/*",
+        "https://*.linkedin.com/*",
+        "https://*.indeed.com/*",
+        "https://*.indeed.co.uk/*",
+        "https://*.indeed.ca/*",
+        "https://*.glassdoor.com/*",
+        "https://*.ziprecruiter.com/*",
+        "https://*.monster.com/*"
+      ],
+      "js": ["jd_parsed.js","injected1.js"],
+      "world": "MAIN",
+      "run_at": "document_start"
+    },
+    {
+        "matches":[
+          "https://*.zhaopin.com/*",
+          "https://*.zhipin.com/*",
+        "https://*.indeed.com/*",
+        "https://*.indeed.co.uk/*",
+        "https://*.indeed.ca/*",
+        "https://*.linkedin.com/*"
+        ],
+      "js": ["jd_parsed.js","I18n.js","test1.js"],
+      "css": ["content.css"],
+      "run_at": "document_end"
+    },
+    {
+      "matches": [
+        "https://*.51job.com/*",
+        "https://*.liepin.com/*",
+        "https://*.zhilian.com/*",
+        "https://*.glassdoor.com/*",
+        "https://*.ziprecruiter.ie/*",
+        "https://*.monster.com/*"
+      ],
+      "js": ["jd_parsed.js","I18n.js","content3.js"],
+      "css": ["content.css"],
+      "run_at": "document_end"
+    }
+    
+  ]
+}

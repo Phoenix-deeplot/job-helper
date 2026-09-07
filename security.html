@@ -1,0 +1,1229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Security | Job-helper</title>
+
+    <meta
+        name="description"
+        content="Learn how Job-helper protects your resume, job description data, API credentials, and AI processing."
+    >
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            margin: 0;
+            font-family:
+                Inter,
+                -apple-system,
+                BlinkMacSystemFont,
+                "Segoe UI",
+                Roboto,
+                Helvetica,
+                Arial,
+                sans-serif;
+
+            color: #171717;
+            background: #ffffff;
+            line-height: 1.7;
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        .container {
+            width: min(1080px, calc(100% - 40px));
+            margin: 0 auto;
+        }
+
+        /* =========================
+           Header
+        ========================= */
+
+        header {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+
+            background: rgba(255, 255, 255, 0.88);
+            backdrop-filter: blur(14px);
+
+            border-bottom: 1px solid #eeeeee;
+        }
+
+        .nav {
+            height: 68px;
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 9px;
+
+            font-size: 18px;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+        }
+
+        .logo-mark {
+            width: 28px;
+            height: 28px;
+
+            border-radius: 8px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            background: #111111;
+            color: #ffffff;
+
+            font-size: 14px;
+            font-weight: 700;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 26px;
+
+            color: #666666;
+            font-size: 14px;
+        }
+
+        .nav-links a:hover {
+            color: #111111;
+        }
+
+        /* =========================
+           Hero
+        ========================= */
+
+        .hero {
+            padding: 110px 0 90px;
+
+            border-bottom: 1px solid #eeeeee;
+        }
+
+        .eyebrow {
+            display: inline-flex;
+            align-items: center;
+
+            padding: 6px 11px;
+
+            border: 1px solid #e6e6e6;
+            border-radius: 999px;
+
+            font-size: 13px;
+            font-weight: 600;
+
+            color: #555555;
+            background: #fafafa;
+        }
+
+        .hero h1 {
+            max-width: 780px;
+
+            margin: 22px 0 20px;
+
+            font-size: clamp(42px, 6vw, 72px);
+            line-height: 1.05;
+
+            letter-spacing: -0.055em;
+        }
+
+        .hero p {
+            max-width: 650px;
+
+            margin: 0;
+
+            color: #666666;
+
+            font-size: 19px;
+            line-height: 1.65;
+        }
+
+        .updated {
+            margin-top: 26px;
+
+            color: #999999;
+
+            font-size: 13px;
+        }
+
+        /* =========================
+           Security overview
+        ========================= */
+
+        .security-flow {
+            padding: 70px 0;
+        }
+
+        .flow-title {
+            margin-bottom: 34px;
+        }
+
+        .flow-title h2 {
+            margin: 0 0 10px;
+
+            font-size: 30px;
+            letter-spacing: -0.035em;
+        }
+
+        .flow-title p {
+            margin: 0;
+
+            color: #666666;
+        }
+
+        .flow {
+            display: grid;
+
+            grid-template-columns:
+                repeat(5, 1fr);
+
+            gap: 12px;
+        }
+
+        .flow-card {
+            min-height: 160px;
+
+            padding: 22px;
+
+            border: 1px solid #e8e8e8;
+            border-radius: 14px;
+
+            background: #fafafa;
+        }
+
+        .flow-number {
+            margin-bottom: 20px;
+
+            color: #999999;
+
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        .flow-card h3 {
+            margin: 0 0 7px;
+
+            font-size: 16px;
+        }
+
+        .flow-card p {
+            margin: 0;
+
+            color: #707070;
+
+            font-size: 13px;
+            line-height: 1.6;
+        }
+
+        /* =========================
+           Main content
+        ========================= */
+
+        .content {
+            padding: 40px 0 110px;
+        }
+
+        .section {
+            padding: 54px 0;
+
+            border-bottom: 1px solid #eeeeee;
+        }
+
+        .section:last-child {
+            border-bottom: none;
+        }
+
+        .section h2 {
+            margin: 0 0 16px;
+
+            font-size: 30px;
+
+            letter-spacing: -0.035em;
+        }
+
+        .section h3 {
+            margin: 32px 0 10px;
+
+            font-size: 18px;
+        }
+
+        .section p {
+            max-width: 780px;
+
+            margin: 0 0 15px;
+
+            color: #555555;
+        }
+
+        .section ul {
+            max-width: 780px;
+
+            padding-left: 21px;
+
+            color: #555555;
+        }
+
+        .section li {
+            margin: 8px 0;
+        }
+
+        /* =========================
+           Cards
+        ========================= */
+
+        .cards {
+            display: grid;
+
+            grid-template-columns:
+                repeat(3, 1fr);
+
+            gap: 16px;
+
+            margin-top: 30px;
+        }
+
+        .card {
+            padding: 25px;
+
+            border: 1px solid #e8e8e8;
+            border-radius: 16px;
+
+            background: #ffffff;
+        }
+
+        .card-icon {
+            width: 38px;
+            height: 38px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            margin-bottom: 18px;
+
+            border-radius: 10px;
+
+            background: #f2f2f2;
+
+            font-size: 16px;
+        }
+
+        .card h3 {
+            margin: 0 0 8px;
+
+            font-size: 17px;
+        }
+
+        .card p {
+            margin: 0;
+
+            color: #707070;
+
+            font-size: 14px;
+        }
+
+        /* =========================
+           Data table
+        ========================= */
+
+        .data-table {
+            width: 100%;
+
+            margin-top: 28px;
+
+            border-collapse: collapse;
+
+            font-size: 14px;
+        }
+
+        .data-table th,
+        .data-table td {
+            padding: 15px;
+
+            text-align: left;
+
+            border-bottom: 1px solid #eeeeee;
+        }
+
+        .data-table th {
+            color: #555555;
+
+            font-weight: 600;
+
+            background: #fafafa;
+        }
+
+        .data-table td {
+            color: #666666;
+        }
+
+        /* =========================
+           Callout
+        ========================= */
+
+        .callout {
+            margin: 35px 0 10px;
+
+            padding: 24px 26px;
+
+            border: 1px solid #e5e5e5;
+            border-radius: 14px;
+
+            background: #fafafa;
+        }
+
+        .callout strong {
+            display: block;
+
+            margin-bottom: 7px;
+
+            color: #171717;
+        }
+
+        .callout p {
+            margin: 0;
+
+            font-size: 14px;
+        }
+
+        /* =========================
+           Contact
+        ========================= */
+
+        .contact {
+            margin-top: 45px;
+
+            padding: 32px;
+
+            border-radius: 18px;
+
+            background: #111111;
+            color: #ffffff;
+        }
+
+        .contact h2 {
+            margin: 0 0 10px;
+
+            font-size: 25px;
+        }
+
+        .contact p {
+            margin: 0 0 18px;
+
+            color: #bbbbbb;
+        }
+
+        .contact a {
+            color: #ffffff;
+
+            font-weight: 600;
+        }
+
+        /* =========================
+           Footer
+        ========================= */
+
+        footer {
+            padding: 35px 0;
+
+            border-top: 1px solid #eeeeee;
+
+            color: #888888;
+
+            font-size: 13px;
+        }
+
+        .footer-inner {
+            display: flex;
+
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .footer-links {
+            display: flex;
+            gap: 20px;
+        }
+
+        .footer-links a:hover {
+            color: #222222;
+        }
+
+        /* =========================
+           Responsive
+        ========================= */
+
+        @media (max-width: 800px) {
+
+            .nav-links {
+                display: none;
+            }
+
+            .hero {
+                padding: 75px 0 65px;
+            }
+
+            .flow {
+                grid-template-columns: 1fr;
+            }
+
+            .cards {
+                grid-template-columns: 1fr;
+            }
+
+            .footer-inner {
+                flex-direction: column;
+
+                align-items: flex-start;
+
+                gap: 15px;
+            }
+
+            .data-table {
+                font-size: 13px;
+            }
+
+            .data-table th,
+            .data-table td {
+                padding: 11px 8px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+    <div class="container nav">
+
+        <a href="/" class="logo">
+            <span class="logo-mark">J</span>
+            <span>Job-helper</span>
+        </a>
+
+        <nav class="nav-links">
+            <a href="/">Home</a>
+            <a href="/privacy.html">Privacy</a>
+            <a href="/terms.html">Terms</a>
+            <a href="/security.html">Security</a>
+            <a href="/contact.html">Contact</a>
+        </nav>
+
+    </div>
+</header>
+
+
+<main>
+
+    <!-- =========================
+         Hero
+    ========================= -->
+
+    <section class="hero">
+
+        <div class="container">
+
+            <span class="eyebrow">
+                Security & Data Protection
+            </span>
+
+            <h1>
+                Your career data<br>
+                should stay yours.
+            </h1>
+
+            <p>
+                Job-helper is designed to process only the information
+                required to provide job matching, resume analysis and
+                AI-powered career assistance.
+            </p>
+
+            <div class="updated">
+                Last updated: September 1, 2026
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =========================
+         Data flow
+    ========================= -->
+
+    <section class="security-flow">
+
+        <div class="container">
+
+            <div class="flow-title">
+
+                <h2>
+                    How your data is handled
+                </h2>
+
+                <p>
+                    Job-helper follows a simple data-processing flow.
+                </p>
+
+            </div>
+
+
+            <div class="flow">
+
+                <div class="flow-card">
+
+                    <div class="flow-number">
+                        01
+                    </div>
+
+                    <h3>
+                        You browse
+                    </h3>
+
+                    <p>
+                        You open a job on a supported recruitment website.
+                    </p>
+
+                </div>
+
+
+                <div class="flow-card">
+
+                    <div class="flow-number">
+                        02
+                    </div>
+
+                    <h3>
+                        Extract
+                    </h3>
+
+                    <p>
+                        Job-helper identifies relevant job description
+                        information.
+                    </p>
+
+                </div>
+
+
+                <div class="flow-card">
+
+                    <div class="flow-number">
+                        03
+                    </div>
+
+                    <h3>
+                        Process
+                    </h3>
+
+                    <p>
+                        Required information is processed by our application
+                        and AI services.
+                    </p>
+
+                </div>
+
+
+                <div class="flow-card">
+
+                    <div class="flow-number">
+                        04
+                    </div>
+
+                    <h3>
+                        Analyze
+                    </h3>
+
+                    <p>
+                        The system generates matching results and
+                        recommendations.
+                    </p>
+
+                </div>
+
+
+                <div class="flow-card">
+
+                    <div class="flow-number">
+                        05
+                    </div>
+
+                    <h3>
+                        Return
+                    </h3>
+
+                    <p>
+                        Results are returned to the Job-helper interface.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =========================
+         Content
+    ========================= -->
+
+    <div class="content">
+
+        <div class="container">
+
+
+            <!-- Data minimization -->
+
+            <section class="section">
+
+                <h2>
+                    Data minimization
+                </h2>
+
+                <p>
+                    We follow a data-minimization approach. Job-helper
+                    processes information only when it is necessary to
+                    provide a feature requested by the user.
+                </p>
+
+                <div class="cards">
+
+                    <div class="card">
+
+                        <div class="card-icon">
+                            JD
+                        </div>
+
+                        <h3>
+                            Job descriptions
+                        </h3>
+
+                        <p>
+                            Used to extract responsibilities, requirements,
+                            skills, experience and other relevant information.
+                        </p>
+
+                    </div>
+
+
+                    <div class="card">
+
+                        <div class="card-icon">
+                            CV
+                        </div>
+
+                        <h3>
+                            Resume data
+                        </h3>
+
+                        <p>
+                            Used to compare your experience and skills with
+                            the requirements of a specific job.
+                        </p>
+
+                    </div>
+
+
+                    <div class="card">
+
+                        <div class="card-icon">
+                            AI
+                        </div>
+
+                        <h3>
+                            AI processing
+                        </h3>
+
+                        <p>
+                            Used to generate matching analysis, skill-gap
+                            analysis and resume suggestions.
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <!-- Browser permissions -->
+
+            <section class="section">
+
+                <h2>
+                    Browser permissions
+                </h2>
+
+                <p>
+                    Job-helper may request permission to access pages on
+                    supported recruitment websites. This allows the
+                    extension to identify and process job descriptions.
+                </p>
+
+                <h3>
+                    What this permission is used for
+                </h3>
+
+                <ul>
+
+                    <li>
+                        Reading relevant job description content.
+                    </li>
+
+                    <li>
+                        Identifying job titles, responsibilities,
+                        requirements and related information.
+                    </li>
+
+                    <li>
+                        Displaying Job-helper's analysis on the page.
+                    </li>
+
+                </ul>
+
+                <h3>
+                    What Job-helper does not do
+                </h3>
+
+                <ul>
+
+                    <li>
+                        We do not intentionally collect passwords.
+                    </li>
+
+                    <li>
+                        We do not intentionally collect payment card
+                        information.
+                    </li>
+
+                    <li>
+                        We do not sell browsing history to advertisers.
+                    </li>
+
+                    <li>
+                        We do not submit job applications on your behalf
+                        unless a future feature explicitly states otherwise.
+                    </li>
+
+                </ul>
+
+            </section>
+
+
+            <!-- Encryption -->
+
+            <section class="section">
+
+                <h2>
+                    Encryption & secure transmission
+                </h2>
+
+                <p>
+                    Data transmitted between Job-helper clients and our
+                    backend services is designed to use encrypted HTTPS/TLS
+                    connections.
+                </p>
+
+                <p>
+                    API credentials and sensitive service configuration are
+                    intended to remain on our server-side infrastructure
+                    rather than being exposed directly in the browser
+                    extension.
+                </p>
+
+                <div class="callout">
+
+                    <strong>
+                        Your API credentials are not stored in the extension.
+                    </strong>
+
+                    <p>
+                        Where third-party AI or translation services are used,
+                        requests are routed through controlled backend
+                        infrastructure when technically applicable.
+                    </p>
+
+                </div>
+
+            </section>
+
+
+            <!-- AI -->
+
+            <section class="section">
+
+                <h2>
+                    AI & third-party processing
+                </h2>
+
+                <p>
+                    Some Job-helper features rely on third-party AI,
+                    translation, cloud infrastructure or other service
+                    providers.
+                </p>
+
+                <p>
+                    Depending on the feature you use, information such as
+                    job descriptions or resume content may be transmitted
+                    to these providers for processing.
+                </p>
+
+                <h3>
+                    AI processing principles
+                </h3>
+
+                <ul>
+
+                    <li>
+                        AI processing is performed to provide the feature
+                        requested by the user.
+                    </li>
+
+                    <li>
+                        We do not intentionally use submitted resumes for
+                        advertising purposes.
+                    </li>
+
+                    <li>
+                        We aim to minimize the amount of information sent
+                        to external services.
+                    </li>
+
+                    <li>
+                        Third-party providers may have their own security
+                        and privacy policies.
+                    </li>
+
+                </ul>
+
+            </section>
+
+
+            <!-- Data retention -->
+
+            <section class="section">
+
+                <h2>
+                    Data retention
+                </h2>
+
+                <p>
+                    We aim to retain user information only for as long as
+                    necessary to provide the requested service.
+                </p>
+
+                <table class="data-table">
+
+                    <thead>
+
+                        <tr>
+                            <th>
+                                Data
+                            </th>
+
+                            <th>
+                                Purpose
+                            </th>
+
+                            <th>
+                                Retention
+                            </th>
+                        </tr>
+
+                    </thead>
+
+                    <tbody>
+
+                        <tr>
+
+                            <td>
+                                Job description
+                            </td>
+
+                            <td>
+                                Job analysis and matching
+                            </td>
+
+                            <td>
+                                Limited / feature dependent
+                            </td>
+
+                        </tr>
+
+
+                        <tr>
+
+                            <td>
+                                Resume
+                            </td>
+
+                            <td>
+                                Resume matching and optimization
+                            </td>
+
+                            <td>
+                                Limited / feature dependent
+                            </td>
+
+                        </tr>
+
+
+                        <tr>
+
+                            <td>
+                                Analysis results
+                            </td>
+
+                            <td>
+                                Providing requested results and history
+                            </td>
+
+                            <td>
+                                Feature dependent
+                            </td>
+
+                        </tr>
+
+
+                        <tr>
+
+                            <td>
+                                Technical logs
+                            </td>
+
+                            <td>
+                                Security and debugging
+                            </td>
+
+                            <td>
+                                Limited retention
+                            </td>
+
+                        </tr>
+
+                    </tbody>
+
+                </table>
+
+            </section>
+
+
+            <!-- Infrastructure -->
+
+            <section class="section">
+
+                <h2>
+                    Infrastructure security
+                </h2>
+
+                <p>
+                    Job-helper uses cloud infrastructure and application
+                    security practices appropriate for an early-stage
+                    software service.
+                </p>
+
+                <ul>
+
+                    <li>
+                        HTTPS/TLS encrypted communication.
+                    </li>
+
+                    <li>
+                        Server-side protection of API credentials.
+                    </li>
+
+                    <li>
+                        Access control for backend systems.
+                    </li>
+
+                    <li>
+                        Limited data retention.
+                    </li>
+
+                    <li>
+                        Monitoring and error logging for service reliability.
+                    </li>
+
+                    <li>
+                        Regular dependency and application maintenance.
+                    </li>
+
+                </ul>
+
+                <p>
+                    No internet-connected system can guarantee absolute
+                    security. We continuously evaluate and improve our
+                    security practices as the product evolves.
+                </p>
+
+            </section>
+
+
+            <!-- User control -->
+
+            <section class="section">
+
+                <h2>
+                    You control your data
+                </h2>
+
+                <p>
+                    Your resume and career information remain yours.
+                    Job-helper does not acquire ownership of content that
+                    you submit to the service.
+                </p>
+
+                <p>
+                    Depending on the features available in your account,
+                    you may be able to delete saved resumes, analysis
+                    history or other stored information.
+                </p>
+
+                <p>
+                    You may also contact us to request access to, correction
+                    or deletion of personal information, subject to
+                    applicable law.
+                </p>
+
+            </section>
+
+
+            <!-- Responsible AI -->
+
+            <section class="section">
+
+                <h2>
+                    Responsible AI
+                </h2>
+
+                <p>
+                    Job-helper uses AI to assist users with job discovery,
+                    resume analysis and career-related decisions.
+                </p>
+
+                <p>
+                    AI-generated results may contain errors or inaccuracies.
+                    A match score is an analytical estimate and does not
+                    represent an employer's decision, hiring probability
+                    or guarantee of employment.
+                </p>
+
+                <div class="callout">
+
+                    <strong>
+                        AI assists your decision. It does not make the
+                        decision for you.
+                    </strong>
+
+                    <p>
+                        We encourage users to review AI-generated results
+                        before relying on them for employment or career
+                        decisions.
+                    </p>
+
+                </div>
+
+            </section>
+
+
+            <!-- Security contact -->
+
+            <section class="section">
+
+                <h2>
+                    Security reporting
+                </h2>
+
+                <p>
+                    If you believe you have discovered a security
+                    vulnerability in Job-helper, please report it to us
+                    privately rather than publicly disclosing the issue.
+                </p>
+
+                <p>
+                    Please include enough information for us to reproduce
+                    and investigate the issue.
+                </p>
+
+                <div class="contact">
+
+                    <h2>
+                        Report a security issue
+                    </h2>
+
+                    <p>
+                        Security reports and responsible disclosure
+                        inquiries:
+                    </p>
+
+                    <a href="mailto:yizongyiheng@gmail.com">
+                        yizongyiheng@gmail.com
+                    </a>
+
+                </div>
+
+            </section>
+
+
+        </div>
+
+    </div>
+
+</main>
+
+
+<footer>
+
+    <div class="container footer-inner">
+
+        <div>
+            © 2026 Job-helper. All rights reserved.
+        </div>
+
+        <div class="footer-links">
+
+            <a href="/privacy.html">
+                Privacy
+            </a>
+
+            <a href="/terms.html">
+                Terms
+            </a>
+
+            <a href="/security.html">
+                Security
+            </a>
+
+            <a href="/contact.html">
+                Contact
+            </a>
+
+        </div>
+
+    </div>
+
+</footer>
+
+
+</body>
+</html>

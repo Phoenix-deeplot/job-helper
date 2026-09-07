@@ -1,0 +1,30 @@
+.history
+.vercel
+.env*
+# 拦截明文开发源码
+index_local.html
+api/*.dev.js
+build.js
+.vscode/
+node_modules/
+package-lock.json
+index_dev.html
+.env.local
+.vercelignore
+vercel.json
+# 允许上传的文件（保持默认放行）：
+# index.html (加密压缩版)
+# api/verify.js (加密版)
+# api/pay.js (加密版)
+# images/ 和 videos/ 文件夹
+.venv/
+.venv
+.vercel
+__pycache__
+*.pyc
+.git
+.vscode
+.history
+model/
+assets/
+test_backends.py

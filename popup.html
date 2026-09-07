@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <title>JOB Helper - 智能简历解析助手</title>
+   <style>
+    /* 隐私协议勾选框——popup.css 里没有对应样式，先用内联样式保证能用，
+       没法保证跟你现有配色/间距完全一致，需要时把 popup.css 发我对齐。 */
+    .consent-row {
+      margin: 10px 0;
+      padding: 10px 12px;
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 8px;
+      font-size: 12px;
+      line-height: 1.6;
+      color: #475569;
+    }
+    .consent-row label {
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+      cursor: pointer;
+    }
+    .consent-row input[type="checkbox"] {
+      margin-top: 2px;
+      flex-shrink: 0;
+      cursor: pointer;
+    }
+    .consent-row a {
+      color: #2563eb;
+      text-decoration: none;
+    }
+    .consent-row a:hover { text-decoration: underline; }
+    .consent-row small { color: #94a3b8; }
+
+    /* 未勾选时，上传区域整体禁用。pointer-events:none 是主要屏障——
+       浏览器原生机制，点击直接穿透不到这个元素上，不依赖任何 JS 事件
+       时序，不会受 popup.js 里 dropZone 具体怎么绑定点击事件的写法
+       影响。下面 script 里的事件捕获拦截保留作为第二层保险，两者不
+       冲突，但真正兜底的是这一条。 */
+#uploadArea.disabled {
+  opacity: 0.45;
+  filter: grayscale(60%);
+  pointer-events: none;
+}
+
+/* 强行将禁用区域及其子元素图标的鼠标指针设为“禁止” */
+#uploadArea.disabled,
+#uploadArea.disabled * {
+  cursor: not-allowed !important;
+}
+
+    .app-footer {
+      margin-top: 16px;
+      padding-top: 12px;
+      border-top: 1px solid #e2e8f0;
+      text-align: center;
+      font-size: 11px;
+      color: #94a3b8;
+    }
+    .app-footer-links a {
+      color: #64748b;
+      text-decoration: none;
+    }
+    .app-footer-links a:hover { text-decoration: underline; color: #2563eb; }
+    .app-footer-sep { margin: 0 6px; color: #cbd5e1; }
+    .app-footer-copyright { margin-top: 4px; }
+  </style>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body class="tab-page-body">
+  <div class="main-wrapper">
+    <div class="container">
+      <!-- 头部 Banner -->
+      <div class="header">
+        <div class="brand">
+          <span class="brand-icon">📄</span>
+          <div class="brand-text">
+            <h3>智能简历解析助手</h3>
+            <span class="sub-title">AI Resume Parser & Diagnostic Tool</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tab 导航头 -->
+      <div class="tab-header">
+        <button class="tab-btn active" data-tab="guest">
+          <span>👤 访客模式</span>
+          <small>Guest Mode</small>
+        </button>
+        <button class="tab-btn" data-tab="user">
+          <span>👑 会员登录 / 注册</span>
+          <small>Member Sign In / Up</small>
+        </button>
+      </div>
+
+      <!-- Tab 1 内容：访客模式 -->
+      <div id="tab-guest" class="tab-content active">
+        <div class="alert-box warning">
+          <div class="alert-icon">⚠️</div>
+          <div class="alert-text">
+            <strong>访客提示 / Guest Notice:</strong> 解析结果仅自动保存 <strong>5 小时</strong>，每天限上传 <strong>3 次</strong>。
+            <br><small>Results are only saved for 5 hours. Limited to 3 uploads per day.</small>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tab 2 内容：会员登录/注册 -->
+      <div id="tab-user" class="tab-content">
+        <div class="alert-box info">
+          <div class="alert-icon">💡</div>
+          <div class="alert-text">
+            输入邮箱与密钥，点击下方上传即可<strong>自动注册/登录</strong>并永久同步简历。
+            <br><small>Enter email & key below to auto sign up/in and sync your resumes permanently.</small>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="input-group">
+            <label>电子邮箱 <span class="en-label">Email Address</span></label>
+            <input type="email" id="userEmail" placeholder="e.g. your_name@example.com" />
+          </div>
+          <div class="input-group">
+            <label>激活密钥 <span class="en-label">Activation Key</span></label>
+            <input type="password" id="userSecretKey" placeholder="填入 / Enter KEY_PRO_..." />
+          </div>
+        </div>
+      </div>
+
+      <!-- 隐私协议同意勾选——适用于访客和会员两种模式，上传前必须勾选 -->
+      <div class="consent-row" id="consentRow">
+        <label>
+          <input type="checkbox" id="privacyConsent" />
+          <span>
+            我已阅读并同意<a href="privacy.html" target="_blank" rel="noopener">《隐私政策》</a>与<a href="terms.html" target="_blank" rel="noopener">《服务条款》</a>，同意将本人简历信息上传至数据库进行解析与存储。
+            <br><small>I have read and agree to the <a href="privacy.html" target="_blank" rel="noopener">Privacy Policy</a> and <a href="terms.html" target="_blank" rel="noopener">Terms of Service</a>, and consent to my resume data being uploaded to the database for parsing and storage.</small>
+          </span>
+        </label>
+      </div>
+
+      <!-- 拖拽上传区域 -->
+      <!-- disabled 是默认状态，写死在 HTML 里，不等 JS 判断完才生效——
+           避免"页面刚渲染、chrome.storage 异步回调还没跑完"这段空窗期
+           里上传区域其实是可点击的这个竞态问题。 -->
+      <div id="uploadArea" class="upload-area disabled">
+        <div class="drop-zone" id="dropZone">
+          <div class="icon">📁</div>
+          <p class="primary-text">点击或拖拽简历文件到此处</p>
+          <p class="secondary-text">Click or drag resume file here to upload</p>
+          <span class="support-tag">支持格式 / Supported: PDF / DOCX / DOC / TXT</span>
+          <input type="file" id="fileInput" accept=".pdf,.docx,.doc,.txt" hidden />
+        </div>
+
+        <div id="loading" class="loading hidden">
+          <div class="spinner"></div>
+          <p class="loading-title">正在鉴权并解析简历，请稍候...</p>
+          <p class="loading-sub">Authenticating & Parsing resume, please wait...</p>
+        </div>
+      </div>
+
+      <!-- 解析结果表单 (成功后回显) -->
+      <div id="resultView" class="result-view hidden">
+        <div class="result-header">
+          <div class="result-title">
+            <span>解析回显 (已覆盖更新数据库)</span>
+            <small>Parsed Result (Updated to Database)</small>
+          </div>
+          <button id="reuploadBtn" class="btn-link">重新上传 / Re-upload</button>
+        </div>
+        <div class="form-grid">
+          <div class="field-item">
+            <label>姓名 / Name</label>
+            <input type="text" id="res_name" placeholder="姓名 / Name" />
+          </div>
+          <div class="field-item">
+            <label>目标职位 / Target Role</label>
+            <input type="text" id="res_role" placeholder="目标职位 / Target Role" />
+          </div>
+          <div class="field-item">
+            <label>电话 / Phone</label>
+            <input type="text" id="res_tel" placeholder="电话 / Phone" />
+          </div>
+          <div class="field-item">
+            <label>邮箱 / Email</label>
+            <input type="text" id="res_email" placeholder="邮箱 / Email" />
+          </div>
+        </div>
+        <div id="quotaBadge" class="quota-badge"></div>
+      </div>
+
+      <div id="statusMsg" class="status-msg"></div>
+
+      <!-- 页脚：隐私协议/服务条款/联系邮箱/版权 -->
+      <div class="app-footer">
+        <div class="app-footer-links">
+          <a href="privacy.html" target="_blank" rel="noopener">隐私声明 Privacy</a>
+          <span class="app-footer-sep">·</span>
+          <a href="terms.html" target="_blank" rel="noopener">服务条款 Terms of Service</a>
+          <span class="app-footer-sep">·</span>
+          <a href="security.html" target="_blank" rel="noopener">安全声明 Security Statement</a>
+          <span class="app-footer-sep">·</span>
+          <a href="mailto:yizongyiheng@gmail.com">yizongyiheng@gmail.com</a>
+        </div>
+        <div class="app-footer-copyright">© 2026 Job Helper. All rights reserved.</div>
+      </div>
+    </div>
+  </div>
+
+ 
+
+
+
+<script src="drop.js"></script>
+  <script src="popup.js"></script>
+</body>
+</html>
