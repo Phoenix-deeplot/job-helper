@@ -4,7 +4,8 @@
 
 一个浏览器插件 + 后端服务。浏览职位列表时不用逐个点开，职责和要求直接展示在卡片上；上传一次简历，之后每个职位都会自动算出与你的匹配程度。
 
-**官网**：https://job-helper.zhitree.top/　·　**反馈**：yizongyiheng@gmail.com
+**官网**：https://job-helper.zhitree.top/　·
+**反馈**：yizongyiheng@gmail.com
 
 ![主界面](docs/screenshots/hero.png)
 
