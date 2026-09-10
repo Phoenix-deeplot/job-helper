@@ -27,7 +27,7 @@
 
 不同招聘网站的页面结构差别很大，插件内部按平台适配，但展示给你的格式是统一的：岗位职责、任职要求分开列出，去掉了「立即沟通」「扫码下载」这类和职位无关的界面文字。
 
-![职位提取](docs/screenshots/extract.png)
+![职位提取](docs/screenshots/hero.png)
 
 ### 简历匹配度
 
@@ -57,7 +57,7 @@
 不注册也能用：每天可解析 3 次简历，结果保留 5 小时。够你判断这个工具是否适合自己，再决定要不要获取激活密钥。
 
 ### 完整视频
-![简历上传](docs/screenshots/job_help_cover.mp4)
+![完整视频](docs/screenshots/job_help_cover.mp4)
 
 ---
 
