@@ -57,7 +57,7 @@
 不注册也能用：每天可解析 3 次简历，结果保留 5 小时。够你判断这个工具是否适合自己，再决定要不要获取激活密钥。
 
 ### 完整视频
-<video src="docs/screenshots/job_help_cover.mp4" controls="controls" width="100%">
+<video src="docs/screenshots/job_help_cover.mp4?raw=true" controls="controls" width="100%">
   您的浏览器不支持播放该视频
 </video>
 ---
