@@ -1,6 +1,7 @@
 
 // //匹配度
-const API_BASE_URL = "http://127.0.0.1:3000"; // 你的 FastAPI 后端地址
+// const API_BASE_URL = "http://127.0.0.1:3000"; // 你的 FastAPI 后端地址
+const API_BASE_URL = "https://job-helper.zhitree.top";
 const isFiftyOneJob = location.hostname.includes('51job.com');
 
 // 获取当前登录用户 ID (可根据你的系统从 localStorage 或 Cookie 中获取)
@@ -700,7 +701,7 @@ async function fetchAndParseJdByUrl(url) {
       // alert(jdContainer)
       const structuredText = domToStructuredTextTab(jdContainer);
     if (!structuredText || structuredText.length < 100) { resolve(null); return; }
-      sendToDebugServer(jdContainer.innerText)
+      // sendToDebugServer(jdContainer.innerText)
       const parsed = refineDomExtractedText(jdContainer.innerText);
       // if (!parsed.responsibilities && !parsed.requirements && !parsed.fullCleanText) return null;
         

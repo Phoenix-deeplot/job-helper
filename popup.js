@@ -1,7 +1,8 @@
 
 
 
-const BASE_URL = "http://127.0.0.1:3000";
+// const BASE_URL = "http://127.0.0.1:3000";
+const BASE_URL = "https://job-helper.zhitree.top";
 const USER_INFO_TTL_MS = 5 * 60 * 60 * 1000; // 5小时
 
 // 获取/生成 Device-ID (用于访客模式)

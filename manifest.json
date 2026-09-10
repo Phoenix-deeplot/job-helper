@@ -29,7 +29,7 @@
     "https://*.monster.com/*",
     "https://*.zhaopin.com/*",
     "http://localhost:3000/*",
-    "http://127.0.0.1:3000/*"
+    "https://job-helper.zhitree.top/*"
   ],
   "background": {
     "service_worker": "background1.js"

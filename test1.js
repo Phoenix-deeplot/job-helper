@@ -3708,7 +3708,8 @@
   if (window.__jdpIntegratedInjected) return;
   window.__jdpIntegratedInjected = true;
 
-  const API_BASE_URL = "http://127.0.0.1:3000";
+  // const API_BASE_URL = "http://127.0.0.1:3000";
+  const API_BASE_URL = "https://job-helper.zhitree.top";
   const REPORT_CACHE_TTL = 5 * 60 * 1000;
 
   // =====================================================================
